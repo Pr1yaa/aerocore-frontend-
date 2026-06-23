@@ -285,7 +285,7 @@ export function VendorDashboard() {
           <span className="text-[9px] text-ink-muted font-mono">
             {lastRefresh.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
-          <button onClick={loadTickets} className="p-1 rounded hover:bg-surface-subtle text-ink-muted hover:text-indigo-600 transition-colors">
+          <button onClick={() => loadTickets(false)} className="p-1 rounded hover:bg-surface-subtle text-ink-muted hover:text-indigo-600 transition-colors">
             <RefreshCw size={11} strokeWidth={2} />
           </button>
         </div>

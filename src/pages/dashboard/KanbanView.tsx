@@ -7,7 +7,7 @@ import { useState, useCallback, useEffect } from 'react'
 import { Plus, LayoutDashboard, AlertOctagon, CheckCircle2, Loader2, Eye, Inbox, RefreshCw, Plane } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { OpsCard } from '@/components/ui/OpsCard'
-import { fetchKanbanTasks, acknowledgeTask, updateTaskStatus, type BackendTask } from '@/lib/api'
+import { acknowledgeTask, updateTaskStatus, type BackendTask } from '@/lib/api'
 import { useTaskRealtime, type TaskRealtimePayload } from '@/lib/useRealtime'
 import type { OpsCardData } from '@/components/ui/OpsCard'
 import { useAuth } from '@/lib/auth'
@@ -45,8 +45,8 @@ function toOpsCard(t: BackendTask): OpsCardData {
     priority: priorityMap[t.priority_label ?? ''] ?? 'medium',
     category: (t.labels?.[1] ?? t.type ?? 'TASK').toUpperCase() as OpsCardData['category'],
     dueTime: t.sla_deadline_utc
-      ? new Date(t.sla_deadline_utc).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      : undefined,
+  ? new Date(t.sla_deadline_utc).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  : '',
     notes: t.description ?? undefined,
     createdAt: t.created_at ? new Date(t.created_at).toLocaleString() : '',
   }
@@ -89,7 +89,7 @@ export function KanbanView() {
   const [prevCols, setPrevCols] = useState<Record<string, KanbanColumnId>>({})
   const [selectedFlight, setSelectedFlight] = useState<string>('ALL')
 
-  const airportId = user?.airport_id ?? 'DEL_T3'
+  const airportId: string = user?.airport_id ?? 'DEL_T3'
 
   async function loadTasks() {
     setIsLoading(true)
